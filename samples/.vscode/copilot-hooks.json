@@ -1,0 +1,28 @@
+{
+    "$schema": "https://raw.githubusercontent.com/lilepeeps/copilot-prompt-hooks/main/schemas/copilot-hooks.schema.json",
+    "hooks": {
+        "SessionStart": [
+            {
+                "hooks": [
+                    {
+                        "type": "prompt",
+                        "promptFile": "startup.prompt.md",
+                        "description": "Load project context when VS Code opens"
+                    }
+                ]
+            }
+        ],
+        "FolderOpen": [
+            {
+                "hooks": [
+                    {
+                        "type": "prompt",
+                        "promptFile": ".github/prompts/folder-scan.prompt.md",
+                        "timeout": 60000,
+                        "description": "Analyze newly opened folders"
+                    }
+                ]
+            }
+        ]
+    }
+}
