@@ -2,7 +2,7 @@
   "name": "copilot-prompt-hooks",
   "displayName": "Copilot Prompt Hooks",
   "description": "Auto-run Copilot prompt files on workspace open - Claude Code Hooks for VS Code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "petermaynard",
   "icon": "images/icon.png",
   "repository": {
