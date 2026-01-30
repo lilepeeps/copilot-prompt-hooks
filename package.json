@@ -1,0 +1,129 @@
+{
+  "name": "copilot-prompt-hooks",
+  "displayName": "Copilot Prompt Hooks",
+  "description": "Auto-run Copilot prompt files on workspace open - Claude Code Hooks for VS Code",
+  "version": "0.1.0",
+  "publisher": "petergriffin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petergriffin/copilot-prompt-hooks"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.108.1"
+  },
+  "categories": [
+    "Other",
+    "Chat"
+  ],
+  "keywords": [
+    "copilot",
+    "prompt",
+    "hooks",
+    "automation",
+    "chat"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "workspaceContains:**/*.prompt.md"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copilot-prompt-hooks.runPrompt",
+        "title": "Run Prompt File",
+        "category": "Copilot Hooks"
+      },
+      {
+        "command": "copilot-prompt-hooks.selectAndRunPrompt",
+        "title": "Select and Run Prompt File",
+        "category": "Copilot Hooks"
+      },
+      {
+        "command": "copilot-prompt-hooks.configureHooks",
+        "title": "Configure Hooks",
+        "category": "Copilot Hooks"
+      },
+      {
+        "command": "copilot-prompt-hooks.createStartupPrompt",
+        "title": "Create Startup Prompt File",
+        "category": "Copilot Hooks"
+      },
+      {
+        "command": "copilot-prompt-hooks.resetWorkspaceConsent",
+        "title": "Reset Workspace Consent",
+        "category": "Copilot Hooks"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Prompt Hooks",
+      "properties": {
+        "copilotPromptHooks.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable auto-running prompt files on workspace open"
+        },
+        "copilotPromptHooks.startupPromptPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the prompt file to run on startup (relative to workspace root). If empty, searches for startup.prompt.md or first .prompt.md file."
+        },
+        "copilotPromptHooks.autoRunDelay": {
+          "type": "number",
+          "default": 2000,
+          "minimum": 500,
+          "maximum": 30000,
+          "description": "Delay in milliseconds before auto-running prompt after workspace opens"
+        },
+        "copilotPromptHooks.runOncePerSession": {
+          "type": "boolean",
+          "default": true,
+          "description": "Only run the startup prompt once per VS Code session"
+        },
+        "copilotPromptHooks.requireConsent": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require user consent before auto-running prompts in a new workspace"
+        },
+        "copilotPromptHooks.promptFilePattern": {
+          "type": "string",
+          "default": "**/*.prompt.md",
+          "description": "Glob pattern for discovering prompt files"
+        }
+      }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": ".vscode/copilot-hooks.json",
+        "url": "./schemas/copilot-hooks.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.108.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.52.0",
+    "eslint": "^9.39.2",
+    "esbuild": "^0.27.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

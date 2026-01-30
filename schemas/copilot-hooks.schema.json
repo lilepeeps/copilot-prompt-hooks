@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Copilot Hooks Configuration",
+    "description": "Configuration for Copilot Prompt Hooks - auto-run prompts and commands at lifecycle events",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "JSON schema reference"
+        },
+        "hooks": {
+            "type": "object",
+            "description": "Hooks organized by event name",
+            "properties": {
+                "SessionStart": {
+                    "$ref": "#/definitions/hookMatcherArray",
+                    "description": "Hooks that run when the workspace is opened or VS Code starts"
+                },
+                "PreChat": {
+                    "$ref": "#/definitions/hookMatcherArray",
+                    "description": "Hooks that run before a chat message is sent (future feature)"
+                },
+                "PostChat": {
+                    "$ref": "#/definitions/hookMatcherArray",
+                    "description": "Hooks that run after a chat response is received (future feature)"
+                },
+                "FolderOpen": {
+                    "$ref": "#/definitions/hookMatcherArray",
+                    "description": "Hooks that run when a new folder is added to the workspace"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": ["hooks"],
+    "definitions": {
+        "hookMatcherArray": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/hookMatcher"
+            }
+        },
+        "hookMatcher": {
+            "type": "object",
+            "properties": {
+                "matcher": {
+                    "type": "string",
+                    "description": "Optional pattern to match (for future tool-specific hooks)"
+                },
+                "hooks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/hook"
+                    },
+                    "minItems": 1,
+                    "description": "Array of hooks to execute"
+                }
+            },
+            "required": ["hooks"]
+        },
+        "hook": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["prompt", "command"],
+                    "description": "Type of hook - 'prompt' runs a prompt file, 'command' runs a shell command"
+                },
+                "promptFile": {
+                    "type": "string",
+                    "description": "Path to the prompt file (relative to workspace root) - for type: 'prompt'"
+                },
+                "command": {
+                    "type": "string",
+                    "description": "Shell command to execute - for type: 'command'"
+                },
+                "timeout": {
+                    "type": "number",
+                    "minimum": 1000,
+                    "maximum": 300000,
+                    "default": 30000,
+                    "description": "Timeout in milliseconds (default: 30000)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of what this hook does"
+                }
+            },
+            "required": ["type"],
+            "allOf": [
+                {
+                    "if": {
+                        "properties": { "type": { "const": "prompt" } }
+                    },
+                    "then": {
+                        "required": ["promptFile"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": { "type": { "const": "command" } }
+                    },
+                    "then": {
+                        "required": ["command"]
+                    }
+                }
+            ]
+        }
+    }
+}
