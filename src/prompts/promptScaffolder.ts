@@ -16,7 +16,7 @@ const PROMPT_TEMPLATES: PromptTemplate[] = [
         description: 'Load project context and prepare for daily work',
         filename: 'startup.prompt.md',
         content: `---
-mode: agent
+agent: agent
 description: Daily startup routine - load project context
 ---
 
@@ -36,7 +36,7 @@ After reviewing, suggest what I should focus on today.
         description: 'Load and understand the project structure',
         filename: 'startup.prompt.md',
         content: `---
-mode: agent  
+agent: agent
 description: Load project context on workspace open
 ---
 
@@ -57,7 +57,7 @@ Keep the summary concise but informative.
         description: 'Prepare for reviewing code changes',
         filename: 'startup.prompt.md',
         content: `---
-mode: agent
+agent: agent
 description: Prepare for code review
 ---
 
@@ -78,7 +78,7 @@ Focus on actionable feedback.
         description: 'Empty prompt file to customize',
         filename: 'startup.prompt.md',
         content: `---
-mode: agent
+agent: agent
 description: Custom startup prompt
 ---
 
